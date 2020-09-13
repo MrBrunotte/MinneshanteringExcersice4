@@ -274,6 +274,7 @@ namespace SkalProj_Datastrukturer_Minne
              * Example of incorrect: (()]), [), {[()}],  List<int> list = new List<int>() { 1, 2, 3, 4 );
              */
 
+            // Behöver hjälp med denna
 
             /**ÖVNING 4 - SVAR
            * 1) Vi använder oss av Stack eftersom vi vill åt FILO principen för att checka vilken typ
