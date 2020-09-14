@@ -402,6 +402,13 @@ namespace SkalProj_Datastrukturer_Minne
                     }
                 }
             }
+
+            //If more opened parentheses than closed
+            if (stack.Count > 0) //Glömde att denna villkor också behövs för att kontrollera ifall det fanns fler öppningsparenteser än stängda :-)
+            {
+                return false;
+            }
+
             return true;
         }
     }
