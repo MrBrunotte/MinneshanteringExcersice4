@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection.PortableExecutable;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
+using System.Text;
 using System.Threading;
 
 namespace SkalProj_Datastrukturer_Minne
@@ -113,7 +114,7 @@ namespace SkalProj_Datastrukturer_Minne
                         break;
                 }
             }
-            
+
             static void AddNameToList(List<string> theList)
             {
                 Console.Write("\nAdd a name: ");
@@ -122,7 +123,7 @@ namespace SkalProj_Datastrukturer_Minne
                 Console.WriteLine($"The Capacity of your list is: {theList.Capacity}\n");
                 PrintList(theList);
             }
-            
+
             /**ÖVNING 1 - SVAR
             * 2) När minnet är fyllt av max element så ökar kapaciteten
             * 3) Kapaciteten dubbleras
@@ -151,7 +152,7 @@ namespace SkalProj_Datastrukturer_Minne
                 PrintList(theList);
                 Console.WriteLine($"\nThe current count of your list is: {theList.Count}");
                 Console.WriteLine($"The Capacity of your list is: {theList.Capacity}\n");
-                
+
             }
         }
 
@@ -160,7 +161,7 @@ namespace SkalProj_Datastrukturer_Minne
             Console.WriteLine("The current list:");
             foreach (var name in theList)
             {
-                
+
                 Console.WriteLine($"  - {name}");
             }
         }
@@ -235,7 +236,7 @@ namespace SkalProj_Datastrukturer_Minne
         {
             Console.Write("\nAdd a customer to Icas queue: ");
             ica.Enqueue(Console.ReadLine());
-            
+
         }
 
         private static void PrintQueue(Queue ica)
@@ -357,18 +358,52 @@ namespace SkalProj_Datastrukturer_Minne
            * 1) Vi använder oss av Stack eftersom vi vill åt FILO principen för att checka vilken typ
            *    av parantes som skall matchas.
            */
-            var s = "({[]})";
-            foreach(var ch in s)
-            {
-                if(ch == '{')
-                {
 
+            Console.WriteLine("Write a sentence and include: []{}()");
+            var sentence = Console.ReadLine();
+            var result = BalancedString(sentence);
+            if(result == true)
+            {
+                Console.WriteLine("The sentence is BALANCED");
+            }
+            else
+            {
+                Console.WriteLine("The sentence is NOT BALANCED");
+            }
+        }
+
+        private static bool BalancedString(string sentence)
+        {
+            var stack = new Stack<char>();
+            //string sentence = "[]}";
+            
+            foreach (var i in sentence)
+            {
+                if (i == '(' || i == '{' || i == '[')
+                {
+                    if (i == '(')
+                    {
+                        stack.Push(')');
+                    }
+                    else if (i == '{')
+                    {
+                        stack.Push('}');
+                    }
+                    else if (i == '[')
+                    {
+                        stack.Push(']');
+                    }
+                }
+                else if (i == ')' || i == '}' || i == ']')
+                {
+                    if (stack.Count == 0 || stack.Pop() != i)
+                    {
+                        return false;
+                    }
                 }
             }
-
+            return true;
         }
-        
-
     }
 }
 /* TEORI FRÅGOR
@@ -384,12 +419,12 @@ namespace SkalProj_Datastrukturer_Minne
  * 2) What is Value Types and Reference Types, What are the differences?
  * Value types are types from System.ValueType. All "things" declared with the following list of types
  * are ValueTypes: Bool, byte, char, decimal, double, enum, float, int, long, sbyte, short, struct
- *uint, ulong, ushort.
+ * uint, ulong, ushort.
 
-* Reference types are types from System.Object. All "things" declared with the types in the list are
+ * Reference types are types from System.Object. All "things" declared with the types in the list are
  * reference types: Class, interface, delegate, object, string.
  * 3) Osäker på detta svar men jag tror att det är enligt nedan:
- *the first method is stored in the heap and the second is stored in the stack. The first is returning
+ * the first method is stored in the heap and the second is stored in the stack. The first is returning
  * 3 since there are no constraints as to what can be accessed and the second is returning 4 since it is on
  * the stack and when one "box" is executed it is discarded and the next "box" is used for memory and 4 is
  * in this "box" now (this box is now on top).
