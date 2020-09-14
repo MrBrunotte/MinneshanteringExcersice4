@@ -102,33 +102,26 @@ namespace SkalProj_Datastrukturer_Minne
                 switch (input1)
                 {
                     case '1':
-                        Console.WriteLine("\nAdd a name: ");
-                        theList.Add(Console.ReadLine()); // Adds an item to the list.
-                        Console.WriteLine($"The current count of your list is: {theList.Count}");
-                        Console.WriteLine($"The Capacity of your list is: {theList.Capacity}\n");
+                        AddNameToList(theList);
                         break;
                     case '2':
-
-
-                        Console.WriteLine("\nRemove a name!\n");
-                        if (theList.Count == 0)
-                        {
-                            Console.WriteLine("The list is empty, you need to add a name to the list before removing an item again!\n");
-                        }
-                        //if (theList.Count > 0)
-                        else
-                        {
-                            theList.RemoveAt(0); // Removes the first item in the list.
-                            Console.WriteLine("You removed the first name in the list!\n");
-                            Console.WriteLine($"The current count of your list is: {theList.Count}");
-                            Console.WriteLine($"The Capacity of your list is: {theList.Capacity}\n");
-                        }
+                        RemoveNameFromList(theList);
                         break;
                     case '0':
                         Environment.Exit(0);
                         break;
                 }
             }
+            
+            static void AddNameToList(List<string> theList)
+            {
+                Console.Write("\nAdd a name: ");
+                theList.Add(Console.ReadLine()); // Adds an item to the list.
+                Console.WriteLine($"The current count of your list is: {theList.Count}");
+                Console.WriteLine($"The Capacity of your list is: {theList.Capacity}\n");
+                PrintList(theList);
+            }
+            
             /**ÖVNING 1 - SVAR
             * 2) När minnet är fyllt av max element så ökar kapaciteten
             * 3) Kapaciteten dubbleras
@@ -139,12 +132,42 @@ namespace SkalProj_Datastrukturer_Minne
             *    man då använder minsta möjlig minne.
             */
         }
+
+        private static void RemoveNameFromList(List<string> theList)
+        {
+            Console.WriteLine("\nRemove a name!\n");
+            if (theList.Count == 0)
+            {
+                Console.WriteLine("The list is empty, you need to add a name to the list before removing an item again!\n");
+            }
+            else
+            {
+                PrintList(theList);
+                Console.WriteLine("Which name in the list do you want to remove? ");
+                theList.Remove(Console.ReadLine());
+                Console.WriteLine("\nNames left in the list!");
+                PrintList(theList);
+                Console.WriteLine($"\nThe current count of your list is: {theList.Count}");
+                Console.WriteLine($"The Capacity of your list is: {theList.Capacity}\n");
+                
+            }
+        }
+
+        private static void PrintList(List<string> theList)
+        {
+            Console.WriteLine("The current list:");
+            foreach (var name in theList)
+            {
+                
+                Console.WriteLine($"  - {name}");
+            }
+        }
+
         /// <summary>
         /// Examines the datastructure Queue
         /// </summary>
         static void ExamineQueue()
         {
-
             /*
              * Loop this method untill the user inputs something to exit to main menue.
              * Create a switch with cases to enqueue items or dequeue items
@@ -154,7 +177,8 @@ namespace SkalProj_Datastrukturer_Minne
             // Create and initialize new Queue called ica
             Queue ica = new Queue();
             Console.WriteLine("\nWelcome to Ica's queue, FIFO applies here!");
-            while (true)
+            bool KeepRunning = true;
+            while (KeepRunning)
             {
                 Console.WriteLine("\n1. Add name to queue");
                 Console.WriteLine("2. Remove from queue");
@@ -173,27 +197,15 @@ namespace SkalProj_Datastrukturer_Minne
                 switch (input2)
                 {
                     case '1':
-                        Console.WriteLine("\nAdd a customer to Icas queue:");
-                        ica.Enqueue(Console.ReadLine());
-                        foreach (var queuer in ica)
-                        {
-                            Console.WriteLine($"Customer: {queuer} was added to the queue.");
-                        }
+                        AddCustomerToQueue(ica);
+                        PrintQueue(ica);
                         break;
                     case '2':
-                        if (ica.Count == 0)
-                        {
-                            Console.WriteLine("The list is empty, you need to add a name to the list before removing an item again!\n");
-                        }
-                        else
-                        {
-                            Console.WriteLine("\nCustomer leaving the queue: \n{0}\n", ica.Dequeue());
-                            //Console.WriteLine("Current queue:");
-                            PrintValues(ica);
-                        }
+                        RemoveCustomerFromQueue(ica);
+                        PrintQueue(ica);
                         break;
                     case '0':
-                        Environment.Exit(0);
+                        KeepRunning = false;
                         break;
                 }
             }
@@ -201,6 +213,36 @@ namespace SkalProj_Datastrukturer_Minne
             * 1) Vi vill ju inte att den färdiga kunden ska vara kvar i kön, när vi använder Stack
             *    så försvinner ju den senaste kunden som i detta exempel inte fått hjälp än!
             */
+        }
+
+        private static void RemoveCustomerFromQueue(Queue ica)
+        {
+            if (ica.Count == 0)
+            {
+                Console.WriteLine("The list is empty, you need to add a name to the list before removing an item again!\n");
+            }
+            else
+            {
+                Console.WriteLine("Queue order before customer leaves:");
+                PrintQueue(ica);
+                Console.WriteLine("\nCustomer leaving the queue: \n  - {0}", ica.Dequeue());
+            }
+        }
+
+        private static void AddCustomerToQueue(Queue ica)
+        {
+            Console.Write("\nAdd a customer to Icas queue: ");
+            ica.Enqueue(Console.ReadLine());
+            
+        }
+
+        private static void PrintQueue(Queue ica)
+        {
+            Console.WriteLine("\nICA Queue:");
+            foreach (var queuer in ica)
+            {
+                Console.WriteLine($"  - {queuer}");
+            }
         }
 
         /// <summary>
@@ -238,24 +280,12 @@ namespace SkalProj_Datastrukturer_Minne
                 switch (input2)
                 {
                     case '1':
-                        Console.WriteLine("\nAdd a customer to Icas queue:");
-                        icaStack.Push(Console.ReadLine());
-                        foreach (var queuer in icaStack)
-                        {
-                            Console.WriteLine($"Customer: {queuer} was added to the queue.");
-                        }
+                        AddCustomerToQueueStack(icaStack);
+                        PrintStack(icaStack);
                         break;
                     case '2':
-                        if (icaStack.Count == 0)
-                        {
-                            Console.WriteLine("The list is empty, you need to add a name to the list before removing an item again!\n");
-                        }
-                        else
-                        {
-                            Console.WriteLine("\nCustomer leaving the queue: \n{0}\n", icaStack.Pop());
-                            //Console.WriteLine("Current queue:");
-                            PrintValues(icaStack);
-                        }
+                        RemoveCustomerFromQueueStack(icaStack);
+                        PrintStack(icaStack);
                         break;
                     case '3':
                         ReverseText();
@@ -266,6 +296,34 @@ namespace SkalProj_Datastrukturer_Minne
                 }
             }
         }
+
+        private static void RemoveCustomerFromQueueStack(Stack icaStack)
+        {
+            if (icaStack.Count == 0)
+            {
+                Console.WriteLine("Queue is empty, add a customer!\n");
+            }
+            else
+            {
+                Console.WriteLine("\nCustomer leaving the queue: \n{0}\n", icaStack.Pop());
+            }
+        }
+
+        private static void PrintStack(Stack icaStack)
+        {
+            Console.WriteLine("\nICA Queue:");
+            foreach (var queuer in icaStack)
+            {
+                Console.WriteLine($"  - {queuer}");
+            }
+        }
+
+        private static void AddCustomerToQueueStack(Stack icaStack)
+        {
+            Console.Write("\nAdd a customer to Icas queue: ");
+            icaStack.Push(Console.ReadLine());
+        }
+
         static void CheckParanthesis()
         {
             /*
@@ -280,6 +338,14 @@ namespace SkalProj_Datastrukturer_Minne
            * 1) Vi använder oss av Stack eftersom vi vill åt FILO principen för att checka vilken typ
            *    av parantes som skall matchas.
            */
+            var s = "({[]})";
+            foreach(var ch in s)
+            {
+                if(ch == '{')
+                {
+
+                }
+            }
 
         }
         public static void PrintValues(IEnumerable ica)
