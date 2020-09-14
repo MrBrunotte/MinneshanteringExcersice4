@@ -81,7 +81,8 @@ namespace SkalProj_Datastrukturer_Minne
 
             // Instantiate new list
             List<string> theList = new List<string>();
-            while (true)
+            bool KeepRunning = true;
+            while (KeepRunning)
             {
                 Console.WriteLine("\n1. Add name");
                 Console.WriteLine("2. Remove name");
@@ -108,7 +109,7 @@ namespace SkalProj_Datastrukturer_Minne
                         RemoveNameFromList(theList);
                         break;
                     case '0':
-                        Environment.Exit(0);
+                        KeepRunning = false;
                         break;
                 }
             }
@@ -133,6 +134,7 @@ namespace SkalProj_Datastrukturer_Minne
             */
         }
 
+        //METHOD SYNTAX EXCERSICE 1
         private static void RemoveNameFromList(List<string> theList)
         {
             Console.WriteLine("\nRemove a name!\n");
@@ -214,7 +216,7 @@ namespace SkalProj_Datastrukturer_Minne
             *    så försvinner ju den senaste kunden som i detta exempel inte fått hjälp än!
             */
         }
-
+        //METHOD SYNTAX EXCERSICE 2
         private static void RemoveCustomerFromQueue(Queue ica)
         {
             if (ica.Count == 0)
@@ -259,12 +261,12 @@ namespace SkalProj_Datastrukturer_Minne
             // create and initialize a new Stack called icaStack
             Stack icaStack = new Stack();
             Console.WriteLine("\nWelcome to Ica's Stack, FILO applies here!");
-            while (true)
+            bool KeepRunning = true;
+            while (KeepRunning)
             {
                 Console.WriteLine("\n1. Add name to queue");
                 Console.WriteLine("2. Remove from queue");
                 Console.WriteLine("3. Reverse Stack order ");
-                // Console.WriteLine("2. Remove from queue");
                 Console.WriteLine("0. Back to main menu");
                 char input2 = ' ';
                 try
@@ -291,12 +293,12 @@ namespace SkalProj_Datastrukturer_Minne
                         ReverseText();
                         break;
                     case '0':
-                        Environment.Exit(0);
+                        KeepRunning = false;
                         break;
                 }
             }
         }
-
+        //METHOD SYNTAX EXCERSICE 3
         private static void RemoveCustomerFromQueueStack(Stack icaStack)
         {
             if (icaStack.Count == 0)
@@ -308,7 +310,11 @@ namespace SkalProj_Datastrukturer_Minne
                 Console.WriteLine("\nCustomer leaving the queue: \n{0}\n", icaStack.Pop());
             }
         }
-
+        private static void AddCustomerToQueueStack(Stack icaStack)
+        {
+            Console.Write("\nAdd a customer to Icas queue: ");
+            icaStack.Push(Console.ReadLine());
+        }
         private static void PrintStack(Stack icaStack)
         {
             Console.WriteLine("\nICA Queue:");
@@ -318,10 +324,23 @@ namespace SkalProj_Datastrukturer_Minne
             }
         }
 
-        private static void AddCustomerToQueueStack(Stack icaStack)
+        private static void ReverseText()
         {
-            Console.Write("\nAdd a customer to Icas queue: ");
-            icaStack.Push(Console.ReadLine());
+            var stack = new Stack<char>();
+            Console.Write("Type a sentence:\t");
+            string sentence = Console.ReadLine();
+
+            foreach (var c in sentence)
+            {
+                stack.Push(c);
+            }
+            sentence = string.Empty;
+
+            while (stack.Count > 0)
+            {
+                sentence += stack.Pop();
+            }
+            Console.WriteLine($"Sentence reversed: \t{sentence}");
         }
 
         static void CheckParanthesis()
@@ -348,32 +367,7 @@ namespace SkalProj_Datastrukturer_Minne
             }
 
         }
-        public static void PrintValues(IEnumerable ica)
-        {
-            Console.WriteLine("Current queue:");
-            foreach (Object queuer in ica)
-                Console.Write("{0}\n", queuer);
-        }
-
-        private static void ReverseText()
-        {
-            var stack = new Stack<char>();
-            Console.Write("Type a sentence:\t");
-            string sentence = Console.ReadLine();
-
-            foreach (var c in sentence)
-            {
-                stack.Push(c);
-            }
-            sentence = string.Empty;
-
-            while (stack.Count > 0)
-            {
-                sentence += stack.Pop();
-            }
-            Console.WriteLine($"Sentence reversed: \t{sentence}");
-
-        }
+        
 
     }
 }
